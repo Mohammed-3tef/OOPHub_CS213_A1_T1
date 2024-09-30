@@ -4,7 +4,7 @@
 // ID: 20231143
 // TA:
 // Date: 8 Oct 2024
-// Version: 1.0
+// Version: 3.0
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -12,13 +12,14 @@ using namespace std;
 // This function extracts and returns punctuation from a string,
 // removing it from the original.
 string Punctuations (string& str) {
-    string result = "";
-    for (int i = 0; i < str.size(); ++i) {
+    string result;
+    for (int i = str.size()-1 ; i >= 0; --i) {
         if (ispunct(str[i])) {
-            result += str[i];
+            result.insert(result.begin(), str[i]);
             str.erase(str.begin()+i);
-            i--;
+//            i++;
         }
+        else break;
     }
     return result;
 }
@@ -64,7 +65,7 @@ string maleAndFemale (string str) {
 
 int main() {
     cout << maleAndFemale("See an adviser and talk to him. He will guide you.") << endl;
-    cout << maleAndFemale("Did you ask him?") << endl;
+    cout << maleAndFemale("Did you ask him????") << endl;
     cout << maleAndFemale("HE2 is a new store.") << endl;
     cout << maleAndFemale("He gave him his book.") << endl;
     cout << maleAndFemale("The dog barked.") << endl;
@@ -72,6 +73,11 @@ int main() {
     cout << maleAndFemale("hIm walked to the store.") << endl;
     cout << maleAndFemale("He gave him his book.") << endl;
     cout << maleAndFemale("He, him, his were all used.") << endl;
-    cout << maleAndFemale("He... will come soon.") << endl;
+    cout << maleAndFemale("H.e... will come soon.") << endl;
+    cout << maleAndFemale("H+e... will come soon.") << endl;
+    cout << maleAndFemale("+H+e... will come soon.") << endl;
+    cout << maleAndFemale("+He... will come soon.") << endl;
+    cout << maleAndFemale("++He... will come soon.") << endl;
+    cout << maleAndFemale("He+... will come soon.") << endl;
     return 0;
 }

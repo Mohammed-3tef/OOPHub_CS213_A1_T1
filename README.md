@@ -1,11 +1,9 @@
 # **Assignment 1 -> Task 1**
 
----
 
 ## **Problems:**
 - **Convert To Gender Inclusive** (This name reflects the purpose of the function, which is to convert male pronouns into gender-inclusive alternatives.)
 
---- 
 
 ## The Algorithms:
 
