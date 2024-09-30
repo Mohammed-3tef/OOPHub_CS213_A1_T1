@@ -35,7 +35,7 @@ string maleAndFemale (string str) {
         }
         else init += str[i];
     }
-    if (!init.empty()) arr.push_back(init);
+    if (!init.empty()) arr.push_back(init);  // Add the last word if any.
 
     // This loop replaces male pronouns in an array with gender-inclusive alternatives,
     // reattaches any extracted punctuation, and builds the final result string.
@@ -45,7 +45,7 @@ string maleAndFemale (string str) {
         if (arr[i] == "He" || arr[i] == "he") arr[i] += " or she";
         else if (arr[i] == "His" || arr[i] == "his") {
             arr[i] += " or her";
-            if (!mark.empty()) arr[i] += 's';
+            if (!mark.empty()) arr[i] += 's';  // Handle possessive 'his' punctuation.
         }
         else if (arr[i] == "Him" || arr[i] == "him") arr[i] += " or her";
         else if (arr[i] == "Himself" || arr[i] == "himself") arr[i] += " or herself";
@@ -56,7 +56,7 @@ string maleAndFemale (string str) {
         // Adding the word to the result.
         result += arr[i];
 
-        // Adding space between the words.
+        // Add a space between words, except after the last word.
         if (i != arr.size() -1) result += " ";
     }
     return result;
