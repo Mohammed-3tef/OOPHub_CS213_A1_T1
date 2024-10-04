@@ -74,7 +74,7 @@ string maleAndFemale (string str) {
 void addNewPlayer (vector<pair<string, int>>& players, string newPlayer = "", int newScore = 0) {
     players.emplace_back(newPlayer, newScore);
     sort(players.begin(), players.end(), [](auto& a, auto& b) {
-        return a.second > b.second;
+        return a.second != b.second ? a.second > b.second : a.first < b.first;
     });
     if (players.size() > 10) players.pop_back();
     cout << "Added Successfully." << endl << endl;
@@ -259,7 +259,7 @@ void fileComparison() {
 
         // If the user wants to exit the program.
         else if (menuChoice == "3") {
-            cout << " ===>> Thanks For Using Manage Player Scores Program..." << endl;
+            cout << " ===>> Thanks For Using File Comparison Program..." << endl;
             cout << endl;
             break;
         }
@@ -284,7 +284,7 @@ int main() {
         string menuChoice; getline(cin, menuChoice);
         cout << endl;
 
-        // If the user chooses Convert Pronouns To Gender Inclusive program.
+        // If the user chooses, Convert Pronouns To Gender Inclusive program.
         if (menuChoice == "1") {
             cout << setw(50) << "Welcome To Convert Pronouns To Gender Inclusive program." << endl << endl;
             while (true) {
@@ -328,17 +328,17 @@ int main() {
             }
         }
 
-        // If the user chooses Manage Player Scores program.
+        // If the user chooses, Manage Player Scores program.
         else if (menuChoice == "2") {
             playerScores(players);
         }
 
-        // If the user chooses Convert Pronouns To Gender Inclusive program.
+        // If the user chooses, Convert Pronouns To Gender Inclusive program.
         else if (menuChoice == "3") {
             cout << "Problem 3" << endl << endl;
         }
 
-        // If the user chooses Convert Pronouns To Gender Inclusive program.
+        // If the user chooses, File Comparison program.
         else if (menuChoice == "4") {
             fileComparison();
         }
