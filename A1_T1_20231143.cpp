@@ -34,15 +34,15 @@ string Punctuations (string& str) {
 
 string maleAndFemale (string str) {
     vector<string> arr;
-    string init = "", result = "";
+    string init, result;
 
     // Adding the words to the vector and remove spaces.
-    for (int i = 0; i < str.size(); ++i) {
-        if (isspace(str[i])) {
+    for (char i : str) {
+        if (isspace(i)) {
             arr.push_back(init);
             init.clear();
         }
-        else init += str[i];
+        else init += i;
     }
     if (!init.empty()) arr.push_back(init);  // Add the last word if any.
 
@@ -72,7 +72,7 @@ string maleAndFemale (string str) {
 }
 
 void addNewPlayer (vector<pair<string, int>>& players, string newPlayer = "", int newScore = 0) {
-    players.push_back({newPlayer, newScore});
+    players.emplace_back(newPlayer, newScore);
     sort(players.begin(), players.end(), [](auto& a, auto& b) {
         return a.second > b.second;
     });
@@ -103,7 +103,7 @@ void searchPlayer(vector<pair<string, int>>& players, string newPlayer = ""){
 }
 
 void playerScores(vector<pair<string, int>>& players) {
-    cout << setw(40) << "Manage Player Scores Program." << endl << endl;
+    cout << setw(40) << "Welcome To Manage Player Scores Program." << endl << endl;
     while (true) {
         cout << "Please select an option by entering the corresponding number to proceed." << endl;
         cout << " (1) Add a new player and score." << endl;
@@ -159,6 +159,116 @@ void playerScores(vector<pair<string, int>>& players) {
     }
 }
 
+void readFromTextFile (string protoType, string firstFilePath, string secondFilePath) {
+    ifstream file1(firstFilePath);
+    ifstream file2(secondFilePath);
+    string line1, line2;
+    if (file1.is_open() && file2.is_open()) {
+        if (protoType == "Char") {
+            vector<char> characters1, characters2;
+            while (getline(file1, line1)) {
+                for (auto ch : line1) {
+                    characters1.push_back(ch);
+                }
+            }
+            while (getline(file2, line2)) {
+                for (auto ch : line2) {
+                    characters2.push_back(ch);
+                }
+            }
+            if (characters1.size() == characters2.size()) {
+                for (int i = 0; i < characters1.size(); ++i) {
+                    if (characters1[i] != characters2[i]) {
+                        cout << "The Two Files Are Not The Same..." << endl << endl;
+                        return;
+                    }
+                }
+                cout << "The Two Files Are The Same..." << endl << endl;
+            }
+            else cout << "The Two Files Are Not The Same..." << endl << endl;
+        }
+        else if (protoType == "String") {
+            vector<string> words1, words2;
+            while (getline(file1, line1)) {
+                string word;
+                for (auto ch : line1) {
+                    if (isspace(ch)) {
+                        words1.push_back(word);
+                        word.clear();
+                    }
+                    else word += ch;
+                }
+                if (!word.empty()) words1.push_back(word);
+            }
+            while (getline(file2, line2)) {
+                string word;
+                for (auto ch : line2) {
+                    if (isspace(ch)) {
+                        words2.push_back(word);
+                        word.clear();
+                    }
+                    else word += ch;
+                }
+                if (!word.empty()) words2.push_back(word);
+            }
+            if (words1.size() == words2.size()) {
+                for (int i = 0; i < words1.size(); ++i) {
+                    if (words1[i] != words2[i]) {
+                        cout << "The Two Files Are Not The Same..." << endl << endl;
+                        return;
+                    }
+                }
+                cout << "The Two Files Are The Same..." << endl << endl;
+            }
+            else cout << "The Two Files Are Not The Same..." << endl << endl;
+        }
+    }
+    else if (!file1.is_open() && file2.is_open()) cout << "The First File Doesn't Exist..." << endl << endl;
+    else if (file1.is_open() && !file2.is_open()) cout << "The Second File Doesn't Exist..." << endl << endl;
+    else cout << "The Two Files Don't Exist..." << endl << endl;
+}
+
+void fileComparison() {
+    cout << setw(40) << "Welcome To File Comparison Program." << endl << endl;
+    while (true) {
+        cout << "Please select an option by entering the corresponding number to proceed." << endl;
+        cout << " (1) Character by character comparison." << endl;
+        cout << " (2) Word by word comparison." << endl;
+        cout << " (3) Exit program." << endl;
+        cout << "Enter Your Choice :";
+        string menuChoice; getline(cin, menuChoice);
+        cout << endl;
+
+        // If the user chooses character by character comparison.
+        if (menuChoice == "1") {
+            cout << "Enter the first file path :";
+            string textFile1; getline(cin, textFile1);
+            cout << "Enter the second file path :";
+            string textFile2; getline(cin, textFile2);
+            readFromTextFile("Char", textFile1, textFile2);
+        }
+
+        // If the user chooses word by word comparison.
+        else if (menuChoice == "2") {
+            cout << "Enter the first file path :";
+            string textFile1; getline(cin, textFile1);
+            cout << "Enter the second file path :";
+            string textFile2; getline(cin, textFile2);
+            readFromTextFile("String", textFile1, textFile2);
+        }
+
+        // If the user wants to exit the program.
+        else if (menuChoice == "3") {
+            cout << " ===>> Thanks For Using Manage Player Scores Program..." << endl;
+            cout << endl;
+            break;
+        }
+
+        // If the user enters an invalid choice.
+        else cout << "Please Enter A Valid Choice (from 1 to 4)..." << endl << endl;
+    }
+}
+
 int main() {
     vector<pair<string, int>> players;
     cout << setw(35) << "Ahlan Ya User Ya Habibi.." << endl;
@@ -168,7 +278,7 @@ int main() {
         cout << " (1) Convert Pronouns To Gender Inclusive Program." << endl;
         cout << " (2) Manage Player Scores Program." << endl;
         cout << " (3) Problem 3." << endl;
-        cout << " (4) Problem 4." << endl;
+        cout << " (4) File Comparison Program." << endl;
         cout << " (5) Exit application." << endl;
         cout << "Enter Your Choice :";
         string menuChoice; getline(cin, menuChoice);
@@ -176,18 +286,18 @@ int main() {
 
         // If the user chooses Convert Pronouns To Gender Inclusive program.
         if (menuChoice == "1") {
-            cout << setw(50) << "Convert Pronouns To Gender Inclusive program." << endl << endl;
+            cout << setw(50) << "Welcome To Convert Pronouns To Gender Inclusive program." << endl << endl;
             while (true) {
                 cout << "Please select an option by entering the corresponding number to proceed." << endl;
                 cout << " (1) Enter A New Message." << endl;
                 cout << " (2) Exit program." << endl;
                 cout << "Enter Your Choice :";
-                string menuChoice;
-                getline(cin, menuChoice);
+                string choice;
+                getline(cin, choice);
                 cout << endl;
 
                 // If the user wants to enter a new message.
-                if (menuChoice == "1") {
+                if (choice == "1") {
                     cout << "Enter Your Message:";
                     string message; getline(cin, message);
 //                    cout << maleAndFemale("See an adviser and talk to him. He will guide you.") << endl;
@@ -202,14 +312,12 @@ int main() {
 //                    cout << maleAndFemale("H.e... will come soon.") << endl;
 //                    cout << maleAndFemale("H+e... will come soon.") << endl;
 //                    cout << maleAndFemale("+H+e... will come soon.") << endl;
-//                    cout << maleAndFemale("+He... will come soon.") << endl;
 //                    cout << maleAndFemale("++He... will come soon.") << endl;
-//                    cout << maleAndFemale("He+... will come soon.") << endl;
                     cout << "The New Message is: " << maleAndFemale(message) << endl << endl;
                 }
 
                 // If the user wants to exit the program.
-                else if (menuChoice == "2") {
+                else if (choice == "2") {
                     cout << " ===>> Thanks For Using Convert Pronouns To Gender Inclusive Program..." << endl;
                     cout << endl;
                     break;
@@ -232,7 +340,7 @@ int main() {
 
         // If the user chooses Convert Pronouns To Gender Inclusive program.
         else if (menuChoice == "4") {
-            cout << "Problem 4" << endl << endl;
+            fileComparison();
         }
 
         // If the user wants to exit the application.
