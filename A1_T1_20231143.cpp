@@ -4,7 +4,7 @@
 // ID: 20231143
 // TA:
 // Date: 8 Oct 2024
-// Version: 3.0
+// Version: 4.0
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -319,13 +319,13 @@ void fileComparison() {
         }
 
         // If the user enters an invalid choice.
-        else cout << "Please Enter A Valid Choice (from 1 to 4)..." << endl << endl;
+        else cout << "Please Enter A Valid Choice (from 1 to 3)..." << endl << endl;
     }
 }
 
 int main() {
     vector<pair<string, int>> players;
-    cout << setw(35) << "Ahlan Ya User Ya Habibi.." << endl;
+    cout << setw(35) << "Ahlan Ya User Ya Habibi..." << endl;
     cout << "Welcome to our application! This menu will guide you through various options to perform specific tasks." << endl;
     while (true) {
         cout << "Please select what program do you want." << endl;
