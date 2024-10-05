@@ -17,6 +17,39 @@ bool isNumber(const string &string) {
     return true;
 }
 
+// This function returns the index of the word in the given string.
+int indexWord (string str, string word) {
+    int index = 0;
+    for (int i = 0; i < str.size(); ++i) {
+        if (str[i] == word[0]) {
+            int j = 0;
+            while (j < word.size() && i < str.size() && str[i] == word[j]) {
+                i++, j++;
+            }
+            if (j == word.size()) return index;
+        }
+        if (str[i] == ' ') index++;
+    }
+    return -1;
+}
+
+// This function splits a string into words and stores them in a vector.
+vector<pair<int, string>> splitWords(int num, string str) {
+    vector<pair<int, string>> words;
+    string word;
+    for (char i : str) {
+        if (!isspace(i)) word += i;
+        else {
+            if (!word.empty()) {
+                words.emplace_back(num, word);
+                word.clear();
+            }
+        }
+    }
+    if (!word.empty()) words.emplace_back(num, word);
+    return words;
+}
+
 // This function extracts and returns punctuation from a string,
 // removing it from the original.
 string Punctuations (string& str) {
@@ -25,14 +58,13 @@ string Punctuations (string& str) {
         if (ispunct(str[i])) {
             result.insert(result.begin(), str[i]);
             str.erase(str.begin()+i);
-//            i++;
         }
         else break;
     }
     return result;
 }
 
-string maleAndFemale (string str) {
+string convertPronounsToGenderInclusive (string str) {
     vector<string> arr;
     string init, result;
 
@@ -73,6 +105,8 @@ string maleAndFemale (string str) {
 
 void addNewPlayer (vector<pair<string, int>>& players, string newPlayer = "", int newScore = 0) {
     players.emplace_back(newPlayer, newScore);
+
+    // Sort the players by score in descending order, and by name in ascending order.
     sort(players.begin(), players.end(), [](auto& a, auto& b) {
         return a.second != b.second ? a.second > b.second : a.first < b.first;
     });
@@ -123,22 +157,30 @@ void playerScores(vector<pair<string, int>>& players) {
                 cout << "Enter the player's score :";
                 getline(cin, oldScore);
                 if (isNumber(oldScore)) {
+
+                    // Convert the string to an integer.
                     int newScore = stoi(oldScore);
                     addNewPlayer(players, newPlayer, newScore);
                     break;
                 }
+
+                // If the user enters an invalid score.
                 else cout << "Enter A Valid Number (No Chars, No Punctuations and No Spaces)..." << endl << endl;
             }
         }
 
         // If the user want to print the top 10 players.
         else if (menuChoice == "2") {
+
+            // If the list is empty.
             if (players.empty()) cout << "There Are No Players On The List." << endl << endl;
             else printTop10(players);
         }
 
         // If the user wants to find the highest score to specific player.
         else if (menuChoice == "3") {
+
+            // If the list is empty.
             if (players.empty()) cout << "There Are No Players On The List." << endl << endl;
             else {
                 cout << "Enter the player's name :";
@@ -164,65 +206,77 @@ void readFromTextFile (string protoType, string firstFilePath, string secondFile
     ifstream file2(secondFilePath);
     string line1, line2;
     if (file1.is_open() && file2.is_open()) {
+
+        // If the user chooses character by character comparison.
         if (protoType == "Char") {
-            vector<char> characters1, characters2;
-            while (getline(file1, line1)) {
-                for (auto ch : line1) {
-                    characters1.push_back(ch);
+            int lineNum = 0;
+
+            while (getline(file1, line1) && getline(file2, line2)) {
+                lineNum++;
+                if (line1 != line2) {
+                    cout << "The Difference found at line " << lineNum << ":\n";
+                    cout << " - File 1: " << line1 << endl;
+                    cout << " - File 2: " << line2 << endl << endl;
+                    return;
                 }
             }
-            while (getline(file2, line2)) {
-                for (auto ch : line2) {
-                    characters2.push_back(ch);
-                }
-            }
-            if (characters1.size() == characters2.size()) {
-                for (int i = 0; i < characters1.size(); ++i) {
-                    if (characters1[i] != characters2[i]) {
-                        cout << "The Two Files Are Not The Same..." << endl << endl;
-                        return;
-                    }
-                }
-                cout << "The Two Files Are The Same..." << endl << endl;
-            }
-            else cout << "The Two Files Are Not The Same..." << endl << endl;
+
+            if (file1.eof() && file2.eof()) cout << "The Two Files Are Identical (Character by character)..." << endl << endl;
+            else cout << "The Two Files Are Not The Same Size..." << endl << endl;
         }
+
+        // If the user chooses word by word comparison.
         else if (protoType == "String") {
-            vector<string> words1, words2;
+            vector<pair<int ,string>> words1, words2;
+            int numLine = 0;
+
+            // Extracting words from lines and storing with line numbers for text comparison.
             while (getline(file1, line1)) {
-                string word;
-                for (auto ch : line1) {
-                    if (isspace(ch)) {
-                        words1.push_back(word);
-                        word.clear();
-                    }
-                    else word += ch;
-                }
-                if (!word.empty()) words1.push_back(word);
+                numLine++;
+                words1 = splitWords(numLine, line1);
             }
+            numLine = 0;
             while (getline(file2, line2)) {
-                string word;
-                for (auto ch : line2) {
-                    if (isspace(ch)) {
-                        words2.push_back(word);
-                        word.clear();
-                    }
-                    else word += ch;
-                }
-                if (!word.empty()) words2.push_back(word);
+                numLine++;
+                words2 = splitWords(numLine, line2);
             }
-            if (words1.size() == words2.size()) {
-                for (int i = 0; i < words1.size(); ++i) {
-                    if (words1[i] != words2[i]) {
-                        cout << "The Two Files Are Not The Same..." << endl << endl;
-                        return;
+
+            // If the two files are not the same size.
+            if (words1.size() != words2.size()) {
+                cout << "The Two Files Are Not The Same Size..." << endl << endl;
+                return;
+            }
+
+            // If the two files are the same size.
+            for (int i = 0; i < words1.size(); ++i) {
+                if (words1[i].second != words2[i].second) {
+                    // Clear EOF flag.
+                    file1.clear(), file2.clear();
+
+                    // Reset file pointer to the beginning.
+                    file1.seekg(0), file2.seekg(0);
+
+                    int currentLine = 0;
+                    while (getline(file2, line2) && getline(file1, line1)) {
+                        currentLine++;
+                        if (currentLine == words1[i].first) {
+                            cout << "The Difference found at line " << currentLine << ", word " << indexWord(line1, words1[i].second) +1 << ":\n";
+                            cout << "The Difference Words are: (" << words1[i].second << ") & (" << words2[i].second << ")\n";
+                            cout << " - File 1: " << line1 << endl;
+                            cout << " - File 2: " << line2 << endl << endl;
+                            return;
+                        }
                     }
                 }
-                cout << "The Two Files Are The Same..." << endl << endl;
             }
-            else cout << "The Two Files Are Not The Same..." << endl << endl;
+            cout << "The Two Files Are Identical (Word by word)..." << endl << endl;
         }
+        // Close the files
+        file1.close();
+        file2.close();
     }
+
+    // If the user enters an invalid file path.
     else if (!file1.is_open() && file2.is_open()) cout << "The First File Doesn't Exist..." << endl << endl;
     else if (file1.is_open() && !file2.is_open()) cout << "The Second File Doesn't Exist..." << endl << endl;
     else cout << "The Two Files Don't Exist..." << endl << endl;
@@ -300,20 +354,7 @@ int main() {
                 if (choice == "1") {
                     cout << "Enter Your Message:";
                     string message; getline(cin, message);
-//                    cout << maleAndFemale("See an adviser and talk to him. He will guide you.") << endl;
-//                    cout << maleAndFemale("Did you ask him????") << endl;
-//                    cout << maleAndFemale("HE2 is a new store.") << endl;
-//                    cout << maleAndFemale("He gave him his book.") << endl;
-//                    cout << maleAndFemale("The dog barked.") << endl;
-//                    cout << maleAndFemale("He, however, went to school.") << endl;
-//                    cout << maleAndFemale("hIm walked to the store.") << endl;
-//                    cout << maleAndFemale("He gave him his book.") << endl;
-//                    cout << maleAndFemale("He, him, his were all used.") << endl;
-//                    cout << maleAndFemale("H.e... will come soon.") << endl;
-//                    cout << maleAndFemale("H+e... will come soon.") << endl;
-//                    cout << maleAndFemale("+H+e... will come soon.") << endl;
-//                    cout << maleAndFemale("++He... will come soon.") << endl;
-                    cout << "The New Message is: " << maleAndFemale(message) << endl << endl;
+                    cout << "The New Message is: " << convertPronounsToGenderInclusive(message) << endl << endl;
                 }
 
                 // If the user wants to exit the program.
