@@ -4,7 +4,7 @@
 // ID: 20231143
 // TA:
 // Date: 8 Oct 2024
-// Version: 4.0
+// Version: 5.0
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -33,8 +33,15 @@ int indexWord (string str, string word) {
     return -1;
 }
 
+vector<pair<int, string>> mergeVectors(vector<pair<int, string>>& arr1, vector<pair<int, string>>& arr2) {
+    vector<pair<int, string>> result;
+    for(auto &pair : arr1) result.push_back(pair);
+    for(auto &pair : arr2) result.push_back(pair);
+    return result;
+}
+
 // This function splits a string into words and stores them in a vector.
-vector<pair<int, string>> splitWords(int num, string str) {
+vector<pair<int, string>> splitWords(int num, string& str) {
     vector<pair<int, string>> words;
     string word;
     for (char i : str) {
@@ -64,7 +71,7 @@ string Punctuations (string& str) {
     return result;
 }
 
-string convertPronounsToGenderInclusive (string str) {
+string convertPronounsToGenderInclusive (string& str) {
     vector<string> arr;
     string init, result;
 
@@ -201,7 +208,7 @@ void playerScores(vector<pair<string, int>>& players) {
     }
 }
 
-void readFromTextFile (string protoType, string firstFilePath, string secondFilePath) {
+void readFromTextFile (string protoType, string& firstFilePath, string& secondFilePath) {
     ifstream file1(firstFilePath);
     ifstream file2(secondFilePath);
     string line1, line2;
@@ -233,16 +240,23 @@ void readFromTextFile (string protoType, string firstFilePath, string secondFile
             // Extracting words from lines and storing with line numbers for text comparison.
             while (getline(file1, line1)) {
                 numLine++;
-                words1 = splitWords(numLine, line1);
+                vector<pair<int ,string>> wordsInLine = splitWords(numLine, line1);
+
+                // Merging the words in the same vector.
+                words1 = mergeVectors(words1, wordsInLine);
             }
             numLine = 0;
             while (getline(file2, line2)) {
                 numLine++;
-                words2 = splitWords(numLine, line2);
+                vector<pair<int ,string>> wordsInLine = splitWords(numLine, line2);
+
+                // Merging the words in the same vector.
+                words2 = mergeVectors(words2, wordsInLine);
             }
 
             // If the two files are not the same size.
             if (words1.size() != words2.size()) {
+                cout << words1.size() << " " << words2.size() << endl;
                 cout << "The Two Files Are Not The Same Size..." << endl << endl;
                 return;
             }
