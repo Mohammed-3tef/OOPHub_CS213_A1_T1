@@ -3,8 +3,8 @@
 // Author: Mohammed Atef Abd El-Kader
 // ID: 20231143
 // TA:
-// Date: 8 Oct 2024
-// Version: 5.0
+// Date: 10 Oct 2024
+// Version: 6.0
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -33,6 +33,7 @@ int indexWord (string str, string word) {
     return -1;
 }
 
+// This function merges two vectors into one.
 vector<pair<int, string>> mergeVectors(vector<pair<int, string>>& arr1, vector<pair<int, string>>& arr2) {
     vector<pair<int, string>> result;
     for(auto &pair : arr1) result.push_back(pair);
@@ -144,7 +145,7 @@ void searchPlayer(vector<pair<string, int>>& players, string newPlayer = ""){
 }
 
 void playerScores(vector<pair<string, int>>& players) {
-    cout << setw(40) << "Welcome To Manage Player Scores Program." << endl << endl;
+    cout << setw(55) << "==> Welcome To Manage Player Scores Program <==" << endl << endl;
     while (true) {
         cout << "Please select an option by entering the corresponding number to proceed." << endl;
         cout << " (1) Add a new player and score." << endl;
@@ -157,22 +158,30 @@ void playerScores(vector<pair<string, int>>& players) {
 
         // If the user want to add a new player and his score.
         if (menuChoice == "1") {
-            cout << "Enter the player's name :";
-            string newPlayer; getline(cin, newPlayer);
-            string oldScore;
             while (true) {
-                cout << "Enter the player's score :";
-                getline(cin, oldScore);
-                if (isNumber(oldScore)) {
+                cout << "Enter the player's name :";
+                string newPlayer; getline(cin, newPlayer);
+                if (!newPlayer.empty()) {
+                    string oldScore;
+                    while (true) {
+                        cout << "Enter the player's score :";
+                        getline(cin, oldScore);
+                        if (isNumber(oldScore) && !oldScore.empty()) {
 
-                    // Convert the string to an integer.
-                    int newScore = stoi(oldScore);
-                    addNewPlayer(players, newPlayer, newScore);
+                            // Convert the string to an integer.
+                            int newScore = stoi(oldScore);
+                            addNewPlayer(players, newPlayer, newScore);
+                            break;
+                        }
+
+                        // If the user enters an invalid score.
+                        else cout << "Enter A Valid Number (No Chars, No Punctuations and No Spaces)..." << endl << endl;
+                    }
                     break;
                 }
 
-                // If the user enters an invalid score.
-                else cout << "Enter A Valid Number (No Chars, No Punctuations and No Spaces)..." << endl << endl;
+                // If the user enters an invalid player name.
+                else cout << "Enter A Valid Player Name..." << endl << endl;
             }
         }
 
@@ -190,21 +199,100 @@ void playerScores(vector<pair<string, int>>& players) {
             // If the list is empty.
             if (players.empty()) cout << "There Are No Players On The List." << endl << endl;
             else {
-                cout << "Enter the player's name :";
-                string newPlayer; getline(cin, newPlayer);
-                searchPlayer(players, newPlayer);
+                while (true) {
+                    cout << "Enter the player's name :";
+                    string newPlayer; getline(cin, newPlayer);
+                    if (!newPlayer.empty()) {
+                        searchPlayer(players, newPlayer);
+                        break;
+                    }
+
+                    // If the user enters an invalid player name.
+                    else cout << "Enter A Valid Player Name..." << endl << endl;
+                }
             }
         }
 
         // If the user wants to exit the program.
         else if (menuChoice == "4") {
-            cout << " ===>> Thanks For Using Manage Player Scores Program..." << endl;
+            cout << " ==>> Thanks For Using Manage Player Scores Program..." << endl;
             cout << endl;
             break;
         }
 
         // If the user enters an invalid choice.
         else cout << "Please Enter A Valid Choice (from 1 to 4)..." << endl << endl;
+    }
+}
+
+void pattern(int n, int i) {
+    if (n <= 0) return;
+    pattern(n/2, i);
+    cout << string(i*2, ' ');
+    for (int j = 0; j < n; ++j) {
+        j != n-1 ? cout << "* " : cout << "*\n";
+    }
+    pattern(n/2, i+(n/2));
+}
+
+void fractalPattern() {
+    cout << setw(50) << "==> Welcome To Fractal Pattern Program <==" << endl << endl;
+    while (true) {
+        cout << "Please select an option by entering the corresponding number to proceed." << endl;
+        cout << " (1) Draw a new pattern." << endl;
+        cout << " (2) Exit program." << endl;
+        cout << "Enter Your Choice :";
+        string menuChoice;
+        getline(cin, menuChoice);
+        cout << endl;
+
+        // If the user wants to draw a new pattern.
+        if (menuChoice == "1") {
+            string oldSize, oldSpaces;
+            while (true) {
+                cout << "Enter the size of the pattern :";
+                getline(cin, oldSize);
+                if (isNumber(oldSize) && !oldSize.empty()) {
+
+                    // Convert the string to an integer.
+                    int size = stoi(oldSize);
+                    if (log2(size) == int(log2(size))) {
+                        while (true) {
+                            cout << "Enter the spaces to shift the pattern :";
+                            getline(cin, oldSpaces);
+                            if (isNumber(oldSpaces) && !oldSpaces.empty()) {
+                                // Convert the string to an integer.
+                                int spaces = stoi(oldSpaces) /2;
+
+                                // Draw the pattern.
+                                cout << "The Pattern is:" << endl;
+                                pattern(size, spaces);
+                                cout << endl;
+                                break;
+                            }
+
+                            // If the user enters an invalid spaces.
+                            else cout << "Enter A Valid Number (No Chars, No Punctuations and No Spaces)..." << endl;
+                        }
+                        break;
+                    }
+                    else cout << "Enter A Valid Number (2^n)..." << endl << endl;
+                }
+
+                // If the user enters an invalid size.
+                else cout << "Enter A Valid Number (No Chars, No Punctuations and No Spaces)..." << endl << endl;
+            }
+        }
+
+        // If the user wants to exit the program.
+        else if (menuChoice == "2") {
+            cout << " ==>> Thanks For Using Fractal Pattern Program..." << endl;
+            cout << endl;
+            break;
+        }
+
+        // If the user enters an invalid choice.
+        else cout << "Please Enter A Valid Choice (1 or 2)..." << endl << endl;
     }
 }
 
@@ -297,7 +385,7 @@ void readFromTextFile (string protoType, string& firstFilePath, string& secondFi
 }
 
 void fileComparison() {
-    cout << setw(40) << "Welcome To File Comparison Program." << endl << endl;
+    cout << setw(50) << "==> Welcome To File Comparison Program <==" << endl << endl;
     while (true) {
         cout << "Please select an option by entering the corresponding number to proceed." << endl;
         cout << " (1) Character by character comparison." << endl;
@@ -327,7 +415,7 @@ void fileComparison() {
 
         // If the user wants to exit the program.
         else if (menuChoice == "3") {
-            cout << " ===>> Thanks For Using File Comparison Program..." << endl;
+            cout << " ==>> Thanks For Using File Comparison Program..." << endl;
             cout << endl;
             break;
         }
@@ -345,7 +433,7 @@ int main() {
         cout << "Please select what program do you want." << endl;
         cout << " (1) Convert Pronouns To Gender Inclusive Program." << endl;
         cout << " (2) Manage Player Scores Program." << endl;
-        cout << " (3) Problem 3." << endl;
+        cout << " (3) Fractal Pattern Program." << endl;
         cout << " (4) File Comparison Program." << endl;
         cout << " (5) Exit application." << endl;
         cout << "Enter Your Choice :";
@@ -354,7 +442,7 @@ int main() {
 
         // If the user chooses, Convert Pronouns To Gender Inclusive program.
         if (menuChoice == "1") {
-            cout << setw(50) << "Welcome To Convert Pronouns To Gender Inclusive program." << endl << endl;
+            cout << setw(65) << "==> Welcome To Convert Pronouns To Gender Inclusive Program <==" << endl << endl;
             while (true) {
                 cout << "Please select an option by entering the corresponding number to proceed." << endl;
                 cout << " (1) Enter A New Message." << endl;
@@ -366,14 +454,23 @@ int main() {
 
                 // If the user wants to enter a new message.
                 if (choice == "1") {
-                    cout << "Enter Your Message:";
-                    string message; getline(cin, message);
-                    cout << "The New Message is: " << convertPronounsToGenderInclusive(message) << endl << endl;
+
+                    while (true) {
+                        cout << "Enter Your Message:";
+                        string message; getline(cin, message);
+                        if (!message.empty()) {
+                            cout << "The New Message is: " << convertPronounsToGenderInclusive(message) << endl << endl;
+                            break;
+                        }
+
+                        // If the user enters an invalid message.
+                        else cout << "Enter A Valid Message..." << endl << endl;
+                    }
                 }
 
                 // If the user wants to exit the program.
                 else if (choice == "2") {
-                    cout << " ===>> Thanks For Using Convert Pronouns To Gender Inclusive Program..." << endl;
+                    cout << " ==>> Thanks For Using Convert Pronouns To Gender Inclusive Program..." << endl;
                     cout << endl;
                     break;
                 }
@@ -390,7 +487,7 @@ int main() {
 
         // If the user chooses, Convert Pronouns To Gender Inclusive program.
         else if (menuChoice == "3") {
-            cout << "Problem 3" << endl << endl;
+            fractalPattern();
         }
 
         // If the user chooses, File Comparison program.

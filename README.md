@@ -4,6 +4,7 @@
 ## **Problems:**
 - **Convert Pronouns To Gender Inclusive :** This name reflects the purpose of the function, which is to convert male pronouns into gender-inclusive alternatives.
 - **Manage Player Scores :** Interactive menu system for adding new players, displaying the top 10 players, searching for a player's highest score, and exiting the program.
+- **Fractal Pattern :** Generates a recursive fractal star pattern by halving the size at each step, with increasing indentation. The size must be a power of 2, and the user controls the horizontal shift, creating a nested, symmetrical pattern.
 - **File Comparison Program. :** Enables users to compare two text files, identifying differences at both character and word levels, while providing an intuitive interface for selecting comparison methods and file paths.
 
 
@@ -330,6 +331,109 @@
        6. **Invalid Input Handling**:
            - If the user enters an invalid menu choice (i.e., not "1", "2", "3", or "4"), the program prints an error message and asks for valid input.
     
+</details>
+
+- <details>
+    <summary>Fractal Pattern Program.</summary>
+    Here’s a detailed explanation of the functions and their underlying logic:
+
+    ### 1. **`void pattern(int n, int i)`**
+    
+    This function recursively generates and prints the fractal pattern using stars (`*`). Here’s a detailed breakdown of how it works:
+    
+    - **Parameters**:
+        - `n`: The number of stars to print in the current row.
+        - `i`: Controls the indentation (shifting) of each row using spaces.
+    
+    #### Step-by-Step Explanation:
+    - **Base Case**:
+      ```cpp
+      if (n <= 0) return;
+      ```
+      If `n` is less than or equal to 0, the function returns immediately without printing anything, which serves as the base case for recursion.
+    
+      - **Recursive Call**:
+        ```cpp
+        pattern(n/2, i);
+        ```
+        The function calls itself with `n` halved (`n/2`) and the same indentation (`i`). This causes the pattern to be drawn recursively for smaller values of `n`, starting from the top-most rows.
+    
+      - **Indentation**:
+        ```cpp
+        cout << string(i*2, ' ');
+        ```
+        This line prints spaces to shift the current row. The number of spaces printed is controlled by the value of `i`, multiplied by 2. The more recursive calls are made, the further the indentation shifts.
+    
+      - **Printing Stars**:
+        ```cpp
+        for (int j = 0; j < n; ++j) {
+            j != n-1 ? cout << "* " : cout << "*\n";
+        }
+        ```
+        This loop prints `n` stars. The ternary operator is used to print a space (`* `) after each star except for the last star in the row, which is followed by a newline (`* \n`).
+    
+      - **Recursive Call (Lower Half)**:
+        ```cpp
+        pattern(n/2, i+(n/2));
+        ```
+        This recursive call draws the lower half of the pattern with `n/2` stars, but with additional indentation (`i + n/2`). This creates a fractal structure where each level of recursion adds more rows of stars, with increasing indentation.
+    
+    ### 2. **`void fractalPattern()`**
+    
+    This function handles the user interaction, taking input from the user to draw the fractal pattern based on their choice. It contains the main menu system and user input validation.
+    
+    #### Step-by-Step Explanation:
+    - **Program Welcome Message**:
+      ```cpp
+      cout << setw(40) << "Welcome To Fractal Pattern Program." << endl << endl;
+      ```
+      This prints a centered welcome message using the `setw(40)` function from the `iomanip` library to center the text.
+    
+      - **Main Loop**:
+        The program continuously prompts the user to either draw a new pattern or exit the program, using a `while (true)` loop until the user chooses to exit.
+    
+      - **User Choices**:
+        The program provides two options:
+          - Option 1 (`menuChoice == "1"`): Draw a new fractal pattern.
+          - Option 2 (`menuChoice == "2"`): Exit the program.
+    
+      - **Pattern Drawing**:
+        When the user selects option 1, the program:
+          - Prompts the user to input the **size** of the pattern (`oldSize`).
+          - Validates the size to ensure it is a power of 2 (i.e., `2^n`), using the condition `log2(size) == int(log2(size))`.
+          - If valid, it prompts for the number of **spaces** to shift the pattern (`oldSpaces`).
+          - Once both inputs are validated, the function `pattern(size, spaces/2)` is called to draw the fractal pattern.
+    
+      - **Input Validation**:
+        The inputs are validated using a helper function `isNumber()` (not included in the code snippet) that checks if the user's input consists only of valid digits (i.e., no characters, punctuations, or spaces).
+    
+      - **Exiting the Program**:
+        If the user selects option 2, the program displays a thank-you message and exits the loop.
+    
+    ### Key Concepts:
+    1. **Recursion**:
+       The `pattern()` function is recursive, calling itself twice at each step—once for the top half and once for the bottom half of the fractal pattern. The recursion continues until the base case `n <= 0` is reached.
+    
+    2. **Fractal Pattern**:
+       The stars are printed in a fractal-like structure, where the size (`n`) of the pattern at each level of recursion decreases by half (`n/2`), creating a visually recursive pattern.
+    
+    3. **User Input**:
+       The `fractalPattern()` function takes the user's input for the size and spaces to customize the pattern's appearance, ensuring the size is a power of 2 for the fractal structure to work correctly.
+    
+    ### Example Output:
+    For example, if the user enters `n = 4` and `i = 2`, the output might look like this:
+    ```
+      *
+      * *
+        *
+      * * * *
+          *
+          * *
+            *
+    ```
+
+    The stars are drawn recursively, and each row has more indentation than the previous one.
+
 </details>
 
 - <details>
