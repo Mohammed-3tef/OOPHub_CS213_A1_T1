@@ -5,7 +5,7 @@
 - **Convert Pronouns To Gender Inclusive :** This name reflects the purpose of the function, which is to convert male pronouns into gender-inclusive alternatives.
 - **Manage Player Scores :** Interactive menu system for adding new players, displaying the top 10 players, searching for a player's highest score, and exiting the program.
 - **Fractal Pattern :** Generates a recursive fractal star pattern by halving the size at each step, with increasing indentation. The size must be a power of 2, and the user controls the horizontal shift, creating a nested, symmetrical pattern.
-- **File Comparison Program. :** Enables users to compare two text files, identifying differences at both character and word levels, while providing an intuitive interface for selecting comparison methods and file paths.
+- **File Comparison Program :** Enables users to compare two text files, identifying differences at both character and word levels, while providing an intuitive interface for selecting comparison methods and file paths.
 
 
 ## **Algorithms:**
@@ -719,3 +719,10 @@
       - **Output:** It clearly communicates the results of the comparisons, informing the user whether the files are identical or detailing the differences found.
       - **Error Handling:** The program accounts for potential errors, such as failing to open files or invalid user inputs, providing appropriate feedback to the user.
 </details>
+
+
+## **Author:**
+- **Name:** <a href="https://github.com/Mohammed-3tef" target="_blank" style="text-decoration: none;">Mohammed Atef Abd El-Kader.</a>
+- **ID:** 20231143
+- **Date:** 10 Oct 2024
+- **Version:** 6.0

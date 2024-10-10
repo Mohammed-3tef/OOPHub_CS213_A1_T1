@@ -111,7 +111,7 @@ string convertPronounsToGenderInclusive (string& str) {
     return result;
 }
 
-void addNewPlayer (vector<pair<string, int>>& players, string newPlayer = "", int newScore = 0) {
+void addNewPlayer (vector<pair<string, int>>& players, const string& newPlayer = "", int newScore = 0) {
     players.emplace_back(newPlayer, newScore);
 
     // Sort the players by score in descending order, and by name in ascending order.
@@ -130,7 +130,7 @@ void printTop10(vector<pair<string, int>>& players) {
     cout << endl;
 }
 
-void searchPlayer(vector<pair<string, int>>& players, string newPlayer = ""){
+void searchPlayer(vector<pair<string, int>>& players, const string& newPlayer = ""){
     bool found = false;
     for(auto &[player, score] : players) {
         if (newPlayer == player) {
@@ -296,7 +296,7 @@ void fractalPattern() {
     }
 }
 
-void readFromTextFile (string protoType, string& firstFilePath, string& secondFilePath) {
+void readFromTextFile (const string& protoType, string& firstFilePath, string& secondFilePath) {
     ifstream file1(firstFilePath);
     ifstream file2(secondFilePath);
     string line1, line2;
