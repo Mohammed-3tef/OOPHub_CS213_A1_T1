@@ -1,10 +1,24 @@
 // File: A1_T1_S19_20231143.cpp
-// Purpose: .........
+// Purpose: Solving Problems {2,5,8,11}
 // Author: Mohammed Atef Abd El-Kader
 // ID: 20231143
-// TA:
+// TA: I don't know
 // Date: 12 Oct 2024
 // Version: 7.0
+
+/*
+This code has menu make the user choose which problem he wants or to exit the program:
+    1. Problem 2 (Convert Pronouns To Gender Inclusive) : This name reflects the purpose of the function,
+                which is to convert male pronouns into gender-inclusive alternatives.
+    2. Problem 5 (Manage Player Scores) : Interactive menu system for adding new players, displaying the top 10 players,
+                searching for a player's highest score, and exiting the program.
+    3. Problem 8 (Fractal Pattern) : Generates a recursive fractal star pattern by halving the size at each step,
+                with increasing indentation. The size must be a power of 2, and the user controls the horizontal shift,
+                creating a nested, symmetrical pattern.
+    4. Problem 11 (File Comparison Program) : Enables users to compare two text files, identifying differences at
+                both character and word levels, while providing an intuitive interface for
+                selecting comparison methods and file paths.
+*/
 
 #include <bits/stdc++.h>
 using namespace std;
