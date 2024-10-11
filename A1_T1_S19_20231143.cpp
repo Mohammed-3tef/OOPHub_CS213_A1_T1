@@ -1,10 +1,10 @@
-// File: A1_T1_20231143.cpp
+// File: A1_T1_S19_20231143.cpp
 // Purpose: .........
 // Author: Mohammed Atef Abd El-Kader
 // ID: 20231143
 // TA:
-// Date: 10 Oct 2024
-// Version: 6.0
+// Date: 12 Oct 2024
+// Version: 7.0
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -62,7 +62,7 @@ vector<pair<int, string>> splitWords(int num, string& str) {
 // removing it from the original.
 string Punctuations (string& str) {
     string result;
-    for (int i = str.size()-1 ; i >= 0; --i) {
+    for (int i = int(str.size())-1 ; i >= 0; --i) {
         if (ispunct(str[i])) {
             result.insert(result.begin(), str[i]);
             str.erase(str.begin()+i);

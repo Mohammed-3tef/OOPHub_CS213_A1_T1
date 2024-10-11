@@ -1,6 +1,5 @@
-10. Message Altering to Avoid Censorship.   In time of conflict, as currently, social media platforms
+10. Message Altering to Avoid Censorship.    In time of conflict, as currently, social media platforms
 usually have bias to one side and censor content or posts supporting the other side. Write a Python
 programs that takes a file in Arabic with some message or post. Then, it changes words that could be
 censored by the platform due to the view they represent with other alternatives. Program should have a
 look up table loaded from another file that has a list of words and the alternative(s) for each word.
-Thank You For Testing!!
